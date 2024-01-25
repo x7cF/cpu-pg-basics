@@ -111,3 +111,25 @@ Address | Value
 **What happens when he CPU tried to execute 10 when its not a valid instruction**
 
 Nothing, my CPU will treat it as a DO_NOTHING instruction.
+
+# More parmeters
+Before we continue. lets make some big changes. First our ram will now have to use 16 bits for addresses and 8 bits for values. In typical ram the address bits count matches what the architecture size is, right now its 4 but lets change it to 16.
+
+Now heres were we see another trick, it has to do with IMM's
+
+Lets update our list of supported parameters
+- IMM: Immediate data, this parameter is NOW 16 bits, used for instructing actual data for computation.
+- TS: This parameter is simply for demonstrating how 2 parameters look. This parameter is 8 bits.
+
+**How can I fit a 16 bit IMM in an 8 bit value of ram?**
+
+You cant. but You can split it up, like this. Since set ram 10 uses an IMM we will use that instruction.
+
+```
+Address | Value
+0       | 2         // Set ram to 10's instruction action
+1       | 0000 0000 // First byte for set ram 10's imm
+2       | 0000 0010 // Second byte for set ram 10's imm
+```
+
+You might have noticed i showed this in binary. This is so you understand how this is put together. What the CPU will do now is when it sees set_ram_10, its designed to check address 1 and 2, where the 2 bytes needed to form 16 bits lies. Now address 1 contains the left segment of our IMM, and address 2 contains the right segment. Which means address 2 contains the lower signifigant bits, or lower placevalue or magnitude bits. Not all architectures do this, but ours will, its just simpler that way. But its easy to reverse it to when designing the CPU. But it makes it harder to program since its reversed.
