@@ -24,11 +24,11 @@ Currently this architecture is very simply, it only has commands and NO paramete
 Lets bring back our ram.
 ```
 Address | Value
-0       | 1
-1       | 1
-2       | 1
-3       | 1
-4       | 0
+0       | 1     // DO NOTHING
+1       | 1     // DO NOTHING
+2       | 1     // DO NOTHING
+3       | 1     // DO NOTHING
+4       | 0     // Shut down CPU
 5       | 0
 6       | 0
 7       | 0
@@ -36,3 +36,36 @@ Address | Value
 ```
 
 This program does nothing for 4 ticks, aka clock cycles, or cycles, and then it reaches address 4 (5th instruction) and terminates the cpu. so the rest of the program never executes.
+
+**Parameters**
+Now lets add a new instruction called set_ram_10. set_ram_10 will take an address and set the value at it to 10.
+
+But before we get to that, lets talk about parameters and order. To our architecture rules lets add the first thing which is parameter types. **NOTE**: You can only use each of these once. Each instruction is allowed to accept any one of the following parameters. For now its just IMM.
+- IMM: Immediate data, the number of bits for this is equal to the architecture bits, currently we are using 4 bits for our architecture, its very simple
+
+As for order, well theres only one parameter for now. So no order rules needed **yet**.
+
+Lets add the instruction now. **NOTE**: I will format my parameters with the name of the parameter then equals what the use is. like how the instruction will utilize it.
+```
+Cmd | Action        | Paramater
+0   | shut down cpu | 
+1   | do nothing    |
+2   | set_ram_10    | IMM=address
+```
+
+**Lets use our new instruction**
+```
+Address | Value
+0       | 1     // DO NOTHING
+1       | 1     // DO NOTHING
+2       | 1     // DO NOTHING
+3       | 1     // DO NOTHING
+4       | 2     // Set ram to 10's instruction action
+5       | 8     // Set ram to 10's address.
+6       | 0
+7       | 0
+8       | 0
+```
+
+**Whats going on...**
+You may notice that I just added the address for instruction at address 4 right after it. Why? Wont the CPU see the data at address 5 and try to execute it? No! This is because the CPU will realize that set_ram_10 uses the next address to store the parameter! Thats how parameters are given to actions. They are simply added right after it.
