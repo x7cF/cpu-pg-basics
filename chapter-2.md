@@ -108,4 +108,6 @@ Address | Value
 11      | 0     // SHUT DOWN
 ```
 
+**What happens when he CPU tried to execute 10 when its not a valid instruction**
 
+Nothing, my CPU will treat it as a DO_NOTHING instruction.
