@@ -62,10 +62,50 @@ Address | Value
 3       | 1     // DO NOTHING
 4       | 2     // Set ram to 10's instruction action
 5       | 8     // Set ram to 10's address.
-6       | 0
-7       | 0
-8       | 0
+6       | 2     // Set ram to 10's instruction action
+7       | 7     // Set ram to 10's address.
+8       | 0     // SHUT DOWN
 ```
 
 **Whats going on...**
 You may notice that I just added the address for instruction at address 4 right after it. Why? Wont the CPU see the data at address 5 and try to execute it? No! This is because the CPU will realize that set_ram_10 uses the next address to store the parameter! Thats how parameters are given to actions. They are simply added right after it.
+
+Another crazy thing is we used set_ram_10 2 times, and since set_ram_10 is using the next address as its parameter, and not te one after that, it all works perfectly fine. 
+
+**Address 7, whats going on**
+At address 7, we specified that we will replace its self with 10. This will work fine because when the CPU executes an instruction, it makes a copy of it inside, so in ram if it changes its not a problem. 10 was the code for an instruction and the CPU restarted without clearing the ram, then the data at 7 will be 10 and now set_ram_10 will set 10 at address 10, which i havnt shown to keep the ram small.
+
+# Ram Views after Execution
+This is what happens when the whole program runs and shuts down, the system will shutdown by the way because this ram is bigger then it appears, there are addresses all the way up to 15, which are set to 0, so the cpu will shut down. This program ends at address 9 because it shuts the PC down.
+```
+Address | Value
+0       | 1     // DO NOTHING
+1       | 1     // DO NOTHING
+2       | 1     // DO NOTHING
+3       | 1     // DO NOTHING
+4       | 2     // Set ram to 10's instruction action
+5       | 8     // Set ram to 10's address.
+6       | 2     // Set ram to 10's instruction action
+7       | 10    // Set ram to 10's address.               (CHANGES OCCURED HERE WHILE PROGRAM WAS RUNNING)
+8       | 10                                              (CHANGES OCCURED HERE WHILE PROGRAM WAS RUNNING)
+```
+
+Now below this is what happens if the CPU program counter is forced back to 0, turned on, but the ram has the modified data, which is right above this. This program ends at address 11 because it shuts the PC down.
+
+```
+Address | Value
+0       | 1     // DO NOTHING
+1       | 1     // DO NOTHING
+2       | 1     // DO NOTHING
+3       | 1     // DO NOTHING
+4       | 2     // Set ram to 10's instruction action
+5       | 8     // Set ram to 10's address.
+6       | 2     // Set ram to 10's instruction action
+7       | 10    // Set ram to 10's address.               
+8       | 10                                              (SET OCCURED HERE WHILE PROGRAM WAS RUNNING BUT DATA WAS ALREADY THE SAME)
+9       | 0
+10      | 10                                              (CHANGES OCCURED HERE WHILE PROGRAM WAS RUNNING)
+11      | 0     // SHUT DOWN
+```
+
+
