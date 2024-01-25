@@ -195,3 +195,26 @@ While the number of bits used to represent the address of ram is the number of b
 **ASCII**
 ASCII stands for American Standard Code for Information Interchange, its very similar to our simple encoding we wrote for strings, aka text. ASCII is a standard owned by the US and simply uses different numbers to represent different symbols than our simple encoding.
 ASCII is very limited, rmember how we can only have 1 byte per address in ram, well (2^8) will give us the number of symbols we can support, which is 256. 256 is not enough to cover many languages, and only covers english and some simple special characters. 
+
+**Storing our custom encoding in ram**
+There are actually many different types of strings, and its not cause of their encoding, but rather how they are stored. lets cover the most basic way to store a string. lets bring our ram back
+```
+Address | Value
+0       | 1
+1       | 2
+2       | 6
+3       | 5
+4       | 0
+6       | 0
+7       | 0
+8       | 0
+```
+
+__Protocol of how strings are dealth with__
+This basic string has some information. First of all look at address 0, we see the first letter of our string. If we go next we see the next and so on so fourth, we read the zeros which are that way because we didnt set them to anything. the string STARTS at **address 0** and ENDS at **address 3**. First thing is how do programs get access to this string. Well we simply use the address of where the string starts. ours conventiently starts at address 0.
+
+__How does the computer know this is a string__
+It doesnt. Instead YOU the programmer must know, based on knwoing you can treat those addresses differently. If you know its a string then you'd call functions that reffer to the string and treat the address as the start of a string. Youll understand this better later. But hold onto this idea. Its the same way your biology works, your cells have DNA and the dna itsself stored complex properties. the DNA creates structures which are reffered to. if reffered to CORRECTLY it works.
+
+__How do we know how long the string is__
+This is important right? so we know when the first string ends. Visibly the ram only contains the string but no other information. This is because its just like the above problem. The programmer must know how long the string is, and then read those specific addresses based on the length. If the programmer doesnt know the length for some reason, then the program could crash due to the code running in ways you wouldnt expect. This is because your cpu might start executing the string, this is bad. Youll understand what execution is in the next chapter.
