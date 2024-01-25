@@ -188,3 +188,10 @@ now lets start on either side of the binary number and check the placevalue corr
 now lets just add our numbers up, `1 + 2 + 8`. Another simpler way but less efficient is to multiply the placevalue mag * the bit. if the bit is 0 the anything multiplied by 0 is 0, so in the end you'd simply be adding 0. but the cost of mulltiplication still exists. it might be faster sometimes as it doesnt reuire a jump instruction in some senarios. youll learn about **instruction jumping** later.
 
 Anyway, with this new placevalue knowlege of it applying to binary too you can now understand **ABFE** as binary which is `0001 0010 0110 0101`
+
+**Limitation of ram**
+While the number of bits used to represent the address of ram is the number of bits the architecture allows. the same cannot be said for the values. There is a very specific and very practical reason for this. Typical ram such as the one your using to read this text has each value to be 8 bits. **8 bits is a single byte**. To store strings, the string is typically split up. 
+
+**ASCII**
+ASCII stands for American Standard Code for Information Interchange, its very similar to our simple encoding we wrote for strings, aka text. ASCII is a standard owned by the US and simply uses different numbers to represent different symbols than our simple encoding.
+ASCII is very limited, rmember how we can only have 1 byte per address in ram, well (2^8) will give us the number of symbols we can support, which is 256. 256 is not enough to cover many languages, and only covers english and some simple special characters. 
